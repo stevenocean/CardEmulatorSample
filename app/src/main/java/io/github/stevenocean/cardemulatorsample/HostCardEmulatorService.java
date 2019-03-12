@@ -28,7 +28,7 @@ public class HostCardEmulatorService extends HostApduService {
             return hexStringToByteArray(STATUS_SUCCESS);
         }
 
-        final String hexCommandApdu = encodeHexString(commandApdu);
+        final String hexCommandApdu = encodeHexString(commandApdu, true);
         if (hexCommandApdu.length() < MIN_APDU_LENGTH) {
             return hexStringToByteArray(STATUS_FAILED);
         }
@@ -53,6 +53,27 @@ public class HostCardEmulatorService extends HostApduService {
         Toast.makeText(this, "Deactivated - reason:" + reason, Toast.LENGTH_LONG).show();
     }
 
+    public static String byteToHex(byte num, boolean upper) {
+        char[] hexDigits = new char[2];
+        if (upper) {
+            hexDigits[0] = Character.toUpperCase(Character.forDigit((num >> 4) & 0xF, 16));
+            hexDigits[1] = Character.toUpperCase(Character.forDigit((num & 0xF), 16));
+        } else {
+            hexDigits[0] = Character.forDigit((num >> 4) & 0xF, 16);
+            hexDigits[1] = Character.forDigit((num & 0xF), 16);
+        }
+
+        return new String(hexDigits);
+    }
+
+    public static String encodeHexString(byte[] byteArray, boolean upper) {
+        StringBuilder hexStringBuffer = new StringBuilder();
+        for (byte aByteArray : byteArray) {
+            hexStringBuffer.append(byteToHex(aByteArray, upper));
+        }
+        return hexStringBuffer.toString();
+    }
+
     public static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
@@ -61,21 +82,6 @@ public class HostCardEmulatorService extends HostApduService {
                     + Character.digit(s.charAt(i+1), 16));
         }
         return data;
-    }
-
-    public static String byteToHex(byte num) {
-        char[] hexDigits = new char[2];
-        hexDigits[0] = Character.forDigit((num >> 4) & 0xF, 16);
-        hexDigits[1] = Character.forDigit((num & 0xF), 16);
-        return new String(hexDigits);
-    }
-
-    public static String encodeHexString(byte[] byteArray) {
-        StringBuilder hexStringBuffer = new StringBuilder();
-        for (byte aByteArray : byteArray) {
-            hexStringBuffer.append(byteToHex(aByteArray));
-        }
-        return hexStringBuffer.toString();
     }
 
 }
