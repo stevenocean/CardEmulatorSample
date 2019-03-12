@@ -14,7 +14,7 @@ public class HostCardEmulatorService extends HostApduService {
     public static final String STATUS_FAILED = "6F00";
     public static final String CLA_NOT_SUPPORTED = "6E00";
     public static final String INS_NOT_SUPPORTED = "6D00";
-    public static final String AID = "A0000002471002";
+    public static final String AID = "A0000002471001";
     public static final String SELECT_INS = "A4";
     public static final String DEFAULT_CLA = "00";
     public static final int MIN_APDU_LENGTH = 12;
